@@ -1,12 +1,15 @@
 package com.example.altecsistemas.springboot_web.controllerss;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.altecsistemas.springboot_web.models.dtos.ParamDto;
+import com.example.altecsistemas.springboot_web.models.dtos.ParamMixDto;
+
+
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -23,12 +26,20 @@ public class RequestParamsController {
     
 
     @GetMapping("/bar")
-    public ParamDto bar(@RequestParam String text,@RequestParam Integer code) {
+    public ParamMixDto bar(@RequestParam String text,@RequestParam Integer code) {
         
-        ParamDto paramDto=new ParamDto();
+        ParamMixDto paramDto=new ParamMixDto();
         paramDto.setMessage(text);
         paramDto.setCode(code);
         return paramDto;
+    }
+    
+    @GetMapping("/request")
+    public ParamMixDto request(HttpServletRequest request) {
+        ParamMixDto paramMixDto=new ParamMixDto();
+        paramMixDto.setCode(Integer.parseInt(request.getParameter("code")));
+        paramMixDto.setMessage(request.getParameter("message"));
+        return paramMixDto;
     }
     
 }
